@@ -3,6 +3,12 @@ import VerticalCutReveal, {
   VerticalCutRevealRef,
 } from "@/components/fancy/text/vertical-cut-reveal";
 import ScrambleHover from "@/components/fancy/text/scramble-hover";
+import useScreenSize from "@/hooks/use-screen-size";
+
+import Gravity, {
+  MatterBody,
+} from "@/components/fancy/physics/cursor-attractor-and-gravity";
+
 import {
   useInView,
   useScroll,
@@ -18,7 +24,7 @@ export default function Home() {
   const projectsRef = useRef(null);
   const introTextRef = useRef<VerticalCutRevealRef>(null);
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
-
+  const screenSize = useScreenSize();
   // Intro Scroll Fade Out
   const { scrollYProgress: introScrollY } = useScroll({
     target: introRef,
@@ -85,54 +91,97 @@ export default function Home() {
   return (
     <div className="bg-white">
       {/* Intro Section */}
-      <div ref={introRef} className="h-[200vh]">
+      <div ref={introRef} className="h-[200vh] relative">
         <motion.div
           style={{ opacity: introOpacity }}
-          className="sticky top-0 w-dvw h-dvh xs:text-2xl text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl flex flex-col items-start justify-center font-overused-grotesk p-16 md:p-16 lg:p-24 text-[#000000] tracking-wide uppercase"
+          className="sticky top-0 w-dvw h-dvh overflow-hidden"
         >
-          <div className="mb-4">
-            <VerticalCutReveal
-              splitBy="characters"
-              staggerDuration={0.025}
-              staggerFrom="first"
-              transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 21,
-              }}
+          {/* Gravity Background Layer */}
+          <div className="relative w-full h-full">
+            <Gravity
+              attractorStrength={0.0}
+              cursorStrength={0.0004}
+              cursorFieldRadius={200}
+              className="absolute inset-0 w-full h-full z-0"
             >
-              {`HI THERE👋, I'm!`}
-            </VerticalCutReveal>
+              {[...Array(50)].map((_, i) => {
+                const maxSize = screenSize.lessThan("sm")
+                  ? 20
+                  : screenSize.lessThan("md")
+                  ? 30
+                  : 40;
+
+                const size = Math.max(
+                  screenSize.lessThan("sm") ? 10 : 20,
+                  Math.random() * maxSize
+                );
+
+                return (
+                  <MatterBody
+                    key={i}
+                    matterBodyOptions={{ friction: 0.5, restitution: 0.2 }}
+                    x={`${Math.random() * 100}%`}
+                    y={`${Math.random() * 100}%`}
+                  >
+                    <div
+                      className="rounded-full bg-[#eee]"
+                      style={{
+                        width: `${size}px`,
+                        height: `${size}px`,
+                      }}
+                    />
+                  </MatterBody>
+                );
+              })}
+            </Gravity>
+
+            {/* Foreground Text Layer */}
+            <div className="relative z-10 flex flex-col items-start justify-center w-full h-full font-overused-grotesk p-16 md:p-16 lg:p-24 text-[#000000] tracking-wide uppercase xs:text-2xl text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl">
+              <div className="mb-4">
+                <VerticalCutReveal
+                  splitBy="characters"
+                  staggerDuration={0.025}
+                  staggerFrom="first"
+                  transition={{
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 21,
+                  }}
+                >
+                  {`HI THERE👋, I'm!`}
+                </VerticalCutReveal>
+              </div>
+              <div className="mb-4">
+                <VerticalCutReveal
+                  splitBy="characters"
+                  staggerDuration={0.025}
+                  staggerFrom="first"
+                  reverse={true}
+                  transition={{
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 21,
+                    delay: 0.5,
+                  }}
+                >
+                  {`Muhammad Asim Ali Murtaza,`}
+                </VerticalCutReveal>
+              </div>
+              <VerticalCutReveal
+                splitBy="characters"
+                staggerDuration={0.025}
+                staggerFrom="center"
+                transition={{
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 21,
+                  delay: 1.1,
+                }}
+              >
+                {`A Passionate Developer.`}
+              </VerticalCutReveal>
+            </div>
           </div>
-          <div className="mb-4">
-            <VerticalCutReveal
-              splitBy="characters"
-              staggerDuration={0.025}
-              staggerFrom="first"
-              reverse={true}
-              transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 21,
-                delay: 0.5,
-              }}
-            >
-              {`Muhammad Asim Ali Murtaza,`}
-            </VerticalCutReveal>
-          </div>
-          <VerticalCutReveal
-            splitBy="characters"
-            staggerDuration={0.025}
-            staggerFrom="center"
-            transition={{
-              type: "spring",
-              stiffness: 200,
-              damping: 21,
-              delay: 1.1,
-            }}
-          >
-            {`A Passionate Developer.`}
-          </VerticalCutReveal>
         </motion.div>
       </div>
 

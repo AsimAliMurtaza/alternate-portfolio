@@ -86,6 +86,24 @@ export default function Home() {
       image:
         "https://github.com/AsimAliMurtaza/resources/blob/main/projects/notes-app.png?raw=true",
     },
+    {
+      name: "Network Monitoring App",
+      date: "2024",
+      image:
+        "https://github.com/AsimAliMurtaza/resources/blob/main/projects/network-app.png?raw=true",
+    },
+    {
+      name: "ChatSphere",
+      date: "2024",
+      image:
+        "https://github.com/AsimAliMurtaza/resources/blob/main/projects/chat-app.png?raw=true",
+    },
+    {
+      name: "Smart Home Automation",
+      date: "2023",
+      image:
+        "https://github.com/AsimAliMurtaza/resources/blob/main/projects/coal-project.png?raw=true",
+    },
   ];
 
   return (
@@ -178,7 +196,7 @@ export default function Home() {
                   delay: 1.1,
                 }}
               >
-                {`A Passionate Developer.`}
+                {`A Passionate Software Developer.`}
               </VerticalCutReveal>
             </div>
           </div>
@@ -189,7 +207,7 @@ export default function Home() {
       <div ref={projectsRef} className="h-[250vh] relative">
         <motion.div
           style={{ opacity: projectsOpacity }}
-          className="sticky top-0 w-dvw h-dvh xs:text-2xl text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl flex flex-col items-start justify-center font-overused-grotesk p-10 md:p-16 lg:p-24 text-[#000000] tracking-wide uppercase"
+          className="sticky top-0 w-dvw h-dvh xs:text-2xl text-2xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-5xl flex flex-col items-start justify-center font-overused-grotesk p-10 md:p-16 lg:p-24 bg-[#ffffff]  text-[#000000] tracking-wide uppercase"
         >
           <div className="mb-10">
             <VerticalCutReveal
